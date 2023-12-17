@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Grpc.Core;
 using Grpc.Net.Client;
 using GrpcServer;
 
@@ -25,6 +26,19 @@ var channel = GrpcChannel.ForAddress("https://localhost:7069");
 var client = new Customer.CustomerClient(channel);
 var reply = await client.GetCustomerInfoAsync(input).ConfigureAwait(false);
 Console.WriteLine(reply);
+
+Console.WriteLine("==============================================");
+Console.WriteLine("Get new Customers:");
+
+using (var call = client.GetNewCustomers(new NewCustomerRequest()))
+{
+    // Get each customer from response stream.
+    while (await call.ResponseStream.MoveNext())
+    {
+        var currentCustomer = call.ResponseStream.Current;
+        Console.WriteLine(currentCustomer);
+    }
+};
 
 
 Console.ReadLine();

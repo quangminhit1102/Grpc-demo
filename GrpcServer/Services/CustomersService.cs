@@ -13,7 +13,6 @@ namespace GrpcServer.Services
 
         public override Task<CustomerModel> GetCustomerInfo(CustomerLookupModel request, ServerCallContext context)
         {
-
             CustomerModel output = request.UserId switch
             {
                 1 => new CustomerModel() { FirstName = "User01", LastName = "001" },
@@ -24,6 +23,24 @@ namespace GrpcServer.Services
                 _ => new CustomerModel()
             };
             return Task.FromResult(output);
+        }
+
+        public override async Task GetNewCustomers(NewCustomerRequest request, IServerStreamWriter<CustomerModel> responseStream, ServerCallContext context)
+        {
+            var output = new List<CustomerModel>()
+            {
+                 new CustomerModel() { FirstName = "User05", LastName = "005" },
+                 new CustomerModel() { FirstName = "User06", LastName = "006" },
+                 new CustomerModel() { FirstName = "User07", LastName = "007" },
+                 new CustomerModel() { FirstName = "User08", LastName = "008" },
+                 new CustomerModel() { FirstName = "User09", LastName = "009" },
+            };
+
+            foreach (var customer in output)
+            {
+                // Write each item into response stream.
+                await responseStream.WriteAsync(customer);
+            }
         }
     }
 }
