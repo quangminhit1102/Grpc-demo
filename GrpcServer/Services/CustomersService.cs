@@ -13,6 +13,7 @@ namespace GrpcServer.Services
 
         public override Task<CustomerModel> GetCustomerInfo(CustomerLookupModel request, ServerCallContext context)
         {
+
             CustomerModel output = request.UserId switch
             {
                 1 => new CustomerModel() { FirstName = "User01", LastName = "001" },
