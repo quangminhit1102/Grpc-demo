@@ -40,5 +40,13 @@ using (var call = client.GetNewCustomers(new NewCustomerRequest()))
     }
 };
 
+Console.WriteLine("==============================================");
+Console.WriteLine("Get all Customers:");
+
+using (var call = client.GetAllCustomersAsync(new Empty() { }))
+{
+    Console.WriteLine(call.ResponseAsync.Result);
+};
+
 
 Console.ReadLine();

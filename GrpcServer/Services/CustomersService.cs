@@ -42,5 +42,20 @@ namespace GrpcServer.Services
                 await responseStream.WriteAsync(customer);
             }
         }
+
+        public override Task<CustomersResponse> GetAllCustomers(Empty request, ServerCallContext context)
+        {
+            var customers = new List<CustomerModel>()
+            {
+                 new CustomerModel() { FirstName = "User11", LastName = "011" },
+                 new CustomerModel() { FirstName = "User12", LastName = "012" },
+                 new CustomerModel() { FirstName = "User13", LastName = "013" },
+                 new CustomerModel() { FirstName = "User14", LastName = "014" },
+                 new CustomerModel() { FirstName = "User15", LastName = "015" },
+            };
+
+            return Task.FromResult(new CustomersResponse() { Customers = { customers } });
+        }
     }
 }
+

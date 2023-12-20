@@ -4,10 +4,23 @@ option csharp_namespace = "GrpcServer";
 
 // Service 
 service Customer {
+	// return Single Customer Model.
 	rpc GetCustomerInfo (CustomerLookupModel) returns (CustomerModel);
 
-	// return LIST - Stream of customer model
+	// return LIST - Stream of customer model.
 	rpc GetNewCustomers (NewCustomerRequest) returns (stream CustomerModel);
+
+	// return List - repeated of customer model.
+	rpc GetAllCustomers (Empty) returns (CustomersResponse);
+}
+
+message Empty {
+
+}
+
+// Get All Customers response
+message CustomersResponse{
+	repeated CustomerModel customers = 1;
 }
 
 // New customer Query
